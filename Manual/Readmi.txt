@@ -1,0 +1,12 @@
+2. npm i express mongoose 
+cors dotenv
+
+3. npm install -g nodemon
+
+4. PowerShell(Admin) - Set-ExecutionPolicy Unrestricted
+
+
+Na pasta client:
+
+npm create vite@latest
+depois npm install - Demais dependências
