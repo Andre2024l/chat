@@ -1,8 +1,7 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import { baseUrl, getRequest, postRequest } from "../utils/services";
 
-export const ChatContext = createContext();
-
+export const ChatContext = createContext()
 export const ChatContextProvider = ({children,user}) =>{
     const [userChats, setUserChats] = useState(null);
     const [isUserChatLoading, setIsUserChatLoading] = useState(false);
@@ -15,7 +14,9 @@ export const ChatContextProvider = ({children,user}) =>{
     const [sendTextMessageError, setSendTextMessageError] = useState(null);
     const [newMessage, setNewMessage] = useState(null);
     
-    console.log("Mensagens", messages);
+    //console.log("CurrentChat",currentChat);
+
+    //console.log("Mensagens", messages);
     useEffect(() =>{
         const getUsers = async() =>{
             const response = await getRequest(`${baseUrl}/users`);
@@ -56,20 +57,21 @@ export const ChatContextProvider = ({children,user}) =>{
         getUserChats();
     },[user]);
 
-    useEffect(()=>{ //Para listagem de conversas
-        const getMessages = async()=> {
+    useEffect(()=>{
+        const getMessages = async()=>{
                 setIsMessagesLoading(true);
                 setMessagesError(null);
-                const response = await getRequest(`${baseUrl}/messages/${currentChat?._id}`);                
+                const response = await getRequest(`${baseUrl}/messages/${currentChat?._id}`);
+                
                 setIsMessagesLoading(false);
                 if(response.error){
                     return setMessagesError(response);
                 }
                 setMessages(response);
-              };
-
+        }
         getMessages();
-    },[currentChat]);//O parametro enviado como dependencia, pra caso altere.
+    },[currentChat]);
+
 
     const sendTextMesage = useCallback( async(textMessage, sender, currentChatId, setTextMessage) => {
         if(!textMessage) return console.log("Por favor digite alguma coisa");
@@ -89,8 +91,7 @@ export const ChatContextProvider = ({children,user}) =>{
     }, []);
 
     const updateCurrentChat = useCallback((chat) => {
-        setCurrentChat(chat);  
-        console.log(": ",currentChat);   
+        setCurrentChat(chat);   
     },[]);
 
    // console.log("Conversa actual: ", currentChat);
@@ -118,6 +119,7 @@ export const ChatContextProvider = ({children,user}) =>{
             messages,
             isMessagesLoading,
             messagesError,
+            currentChat,
             sendTextMesage            
         }
     }    

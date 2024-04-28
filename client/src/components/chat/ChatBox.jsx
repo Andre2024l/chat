@@ -15,11 +15,11 @@ const ChatBox = () => {
     const {recipientUser} = useFetchRecipientUser(currentChat, user);
     const [textMessage, setTextMessage] = useState("");
 
-    console.log("Recipiente: ", recipientUser);
+    //console.log("Recipiente: ", recipientUser);
     //console.log("mensagem de texto: ", textMessage);
     if(!recipientUser) return ( 
     <p style={{textAlign: "center", width: "100%" }}>
-        Nenhuma conversa encontrada...
+        Nenhuma conversa selecionada...
         </p>
     );
     if(isMessagesLoading) return ( 
@@ -36,7 +36,7 @@ const ChatBox = () => {
             {messages && messages.map((message, index) => 
             (<Stack key={index} className={`${message?.senderId === user?._id ? "message self align-self-end flex-grow-0" : "message align-self-start flex-grow-0"}`}>
                <span>{message.text}</span>
-               <span className="message-footer">{moment(message.createdAt).calendar}</span>
+               <span className="message-footer">{moment(message.createdAt).calendar()}</span>
                 </Stack>))}
         </Stack>
         <Stack  gap={3} className="chat-input flex-grow-0" direction="horizontal"> 
