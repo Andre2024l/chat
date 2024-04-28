@@ -10,7 +10,7 @@ export const ChatContextProvider = ({children,user}) =>{
     const [potentialChats, setPotentialChats] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState(null);
-    const [setIsMessagesLoading,isMessagesLoading] = useState(false);
+    const [isMessagesLoading, setIsMessagesLoading] = useState(false);
     const [messagesError, setMessagesError] = useState(null);
     const [sendTextMessageError, setSendTextMessageError] = useState(null);
     const [newMessage, setNewMessage] = useState(null);
@@ -58,12 +58,10 @@ export const ChatContextProvider = ({children,user}) =>{
 
     useEffect(()=>{ //Para listagem de conversas
         const getMessages = async()=> {
-                //setIsMessagesLoading(true);
+                setIsMessagesLoading(true);
                 setMessagesError(null);
                 const response = await getRequest(`${baseUrl}/messages/${currentChat?._id}`);                
-                //setIsMessagesLoading(false);
-
-                console.log("Funcao busca papo: ",response);
+                setIsMessagesLoading(false);
                 if(response.error){
                     return setMessagesError(response);
                 }
@@ -91,7 +89,8 @@ export const ChatContextProvider = ({children,user}) =>{
     }, []);
 
     const updateCurrentChat = useCallback((chat) => {
-        setCurrentChat(chat)
+        setCurrentChat(chat);  
+        console.log(": ",currentChat);   
     },[]);
 
    // console.log("Conversa actual: ", currentChat);
