@@ -1,9 +1,14 @@
 import { Stack } from "react-bootstrap";
 import avatar from "../../assets/avatar.svg";
 import { useFetchRecipientUser } from "../../hooks/useFetchRecipient";
+import { ChatContext } from "../../context/ChatContext";
+import { useContext } from "react";
 
 const UserChat = ({chat, user}) => {
     const {recipientUser} = useFetchRecipientUser(chat, user);
+    const {onlineUsers} = useContext(ChatContext);
+
+    const isOnline = onlineUsers?.some((user) => user?.userId === recipientUser?._id); //Verifica se o usuario geral esta online
 
     //console.log(recipientUser);
     return <Stack direction="horizontal" gap={3} className="user-card align-items-center p-2 justify-content-between" role="button">
@@ -21,7 +26,7 @@ const UserChat = ({chat, user}) => {
                 25/04/2024
             </div>
             <div className="this-user-notifications">3</div>
-            <span className="user-online"></span>
+            <span className={isOnline ? "user-online" : ""}></span>
          </div>
     </Stack>
 }
