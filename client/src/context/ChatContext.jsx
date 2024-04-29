@@ -14,25 +14,26 @@ export const ChatContextProvider = ({children,user}) =>{
     const [sendTextMessageError, setSendTextMessageError] = useState(null);
     const [newMessage, setNewMessage] = useState(null);
     
-    //console.log("CurrentChat",currentChat);
+    console.log("CurrentChat: ",currentChat);
 
-    //console.log("Mensagens", messages);
+    console.log("Mensagens", messages);
     useEffect(() =>{
         const getUsers = async() =>{
             const response = await getRequest(`${baseUrl}/users`);
             if(response.error){
                 return console.log("Erro ao carregar Lista de usuarios", response);
             }
-        const pChats =  response.filter((u) =>{ 
+            const pChats =  response.filter((u) =>{ 
             let isChatCreated = false;
             if(user?._id === u._id) return false;
             if(userChats){
+                console.log("U - id: ", u.id);
               isChatCreated = userChats?.some((chat)=>{
                     return chat.members[0] === u._id || chat.members[1] === u._id;
                 });
-            }
+            } 
 
-            return !isChatCreated;
+            return !isChatCreated; 
             });
 
             setPotentialChats(pChats);
@@ -70,6 +71,7 @@ export const ChatContextProvider = ({children,user}) =>{
                 setMessages(response);
         }
         getMessages();
+        
     },[currentChat]);
 
 
