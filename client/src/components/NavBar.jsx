@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Container, Nav, Navbar, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import Notification from "./chat/Notification";
 
 const CustomNavBar = () => { // Renamed local NavBar to CustomNavBar
     const {user, logoutUser} = useContext(AuthContext);
@@ -14,7 +15,9 @@ const CustomNavBar = () => { // Renamed local NavBar to CustomNavBar
                 <Nav>
                     <Stack direction="horizontal" gap="3">
                         {
-                            user && (<><Link onClick={()=> logoutUser()}
+                            user && (<>
+                            <Notification/>
+                            <Link onClick={()=> logoutUser()}
                             to="/login" className="link-light text-decoration-none">Sair do Sistema</Link> 
                             </>)
                         }
